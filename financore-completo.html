@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financiamiento Empresarial - Financore Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3D5A80;
+            --secondary: #5B7FA8;
+            --accent: #FF6B35;
+            --dark: #2C3E50;
+            --light: #F9FAFB;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-header svg {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-cta {
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .header-cta:hover {
+            background: #e05a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #E8F4F8 0%, #F0F8FC 100%);
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(91, 127, 168, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero-text .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: #4B5563;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: #374151;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-icon::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hero-cta, .cta-button-large {
+            padding: 1.2rem 3rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .hero-cta:hover, .cta-button-large:hover {
+            background: #e05a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, #5B7FA8 0%, #3D5A80 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6B7280;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--light);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #E5E7EB;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: #6B7280;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Requirements Section */
+        .requirements-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #F0F8FC 0%, #E8F4F8 100%);
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .requirement-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .requirement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .requirement-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .requirement-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .requirement-card p {
+            color: #4B5563;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: var(--primary);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--dark) 0%, #1a2332 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #D1D5DB;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 0.9rem;
+        }
+
+        /* FORMULARIO STYLES */
+        .form-container {
+            background: white;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .form-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            padding: 3rem 2.5rem;
+            margin: 0 auto;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-img {
+            max-width: 280px;
+            height: auto;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .question-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .question-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option-button {
+            padding: 1.5rem 2rem;
+            border: 2px solid #D1D5DB;
+            background: white;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .option-button:hover {
+            border-color: var(--primary);
+            background: #F0F8FC;
+            transform: translateX(5px);
+        }
+
+        .option-button.selected {
+            border-color: var(--primary);
+            background: #F0F8FC;
+            box-shadow: 0 4px 15px rgba(61, 90, 128, 0.15);
+        }
+
+        .option-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .input-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #D1D5DB;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'Open Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(61, 90, 128, 0.1);
+        }
+
+        .input-field.valid {
+            border-color: #10B981;
+        }
+
+        .input-field.error {
+            border-color: #EF4444;
+        }
+
+        .validation-message {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #10B981;
+        }
+
+        .validation-message.error {
+            color: #EF4444;
+        }
+
+        .date-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .date-container .input-field {
+            flex: 1;
+        }
+
+        .date-helper {
+            font-size: 0.9rem;
+            color: #6B7280;
+            margin-top: 0.5rem;
+        }
+
+        .yesno-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .yesno-button {
+            flex: 1;
+            padding: 2rem;
+            border: 2px solid #D1D5DB;
+            background: white;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 200px;
+        }
+
+        .yesno-button:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .yesno-button.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .continue-button {
+            width: 100%;
+            padding: 1.3rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .continue-button.show {
+            display: block;
+        }
+
+        .continue-button:hover {
+            background: #2c4a6b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(61, 90, 128, 0.3);
+        }
+
+        .back-button {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .back-button.show {
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #6B7280;
+            line-height: 1.5;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .final-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .final-title .highlight {
+            color: var(--accent);
+        }
+
+        .final-subtitle {
+            font-size: 1.1rem;
+            color: #6B7280;
+            margin-bottom: 2.5rem;
+        }
+
+        .final-question {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .final-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .final-option-button {
+            padding: 2rem 2.5rem;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .final-option-primary {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .final-option-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .final-option-secondary {
+            background: white;
+            color: #1E3A8A;
+            border-color: #E5E7EB;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .final-option-secondary:hover {
+            transform: translateY(-5px);
+            border-color: #1E3A8A;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .final-option-icon {
+            font-size: 2.5rem;
+        }
+
+        .final-option-subtitle {
+            font-size: 0.95rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .final-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .final-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6B7280;
+            font-size: 0.95rem;
+        }
+
+        .final-badge-icon {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-wrapper {
+                padding: 2rem 1.5rem;
+            }
+
+            .date-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LANDING PAGE -->
+    <div id="landingPage" class="page-section active">
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-header">
+                        <svg viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg">
+                            <g transform="translate(20, 20)">
+                                <path d="M 10,50 A 40,40 0 0,1 30,15" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 40,10 A 40,40 0 0,1 70,10" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 80,15 A 40,40 0 0,1 90,50" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                                <g transform="translate(65, 8)">
+                                    <circle cx="0" cy="0" r="8" fill="white" stroke="#5B7FA8" stroke-width="2"/>
+                                    <circle cx="0" cy="-1" r="3" fill="#5B7FA8"/>
+                                    <path d="M -3,3 Q 0,1 3,3" fill="none" stroke="#5B7FA8" stroke-width="1.5"/>
+                                </g>
+                                <g transform="translate(80, 55)">
+                                    <circle cx="0" cy="0" r="8" fill="white" stroke="#5B7FA8" stroke-width="2"/>
+                                    <circle cx="0" cy="-1" r="3" fill="#5B7FA8"/>
+                                    <path d="M -3,3 Q 0,1 3,3" fill="none" stroke="#5B7FA8" stroke-width="1.5"/>
+                                </g>
+                                <g transform="translate(35, 42)">
+                                    <circle cx="0" cy="0" r="11" fill="#5B7FA8"/>
+                                    <text x="0" y="5" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">$</text>
+                                </g>
+                                <path d="M 10,55 A 40,40 0 0,0 25,75" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 75,75 A 40,40 0 0,0 90,55" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                            </g>
+                            <text x="130" y="65" font-family="'Montserrat', Arial, sans-serif" font-size="42" font-weight="600" fill="#2C3E50">Financore</text>
+                            <text x="130" y="100" font-family="'Montserrat', Arial, sans-serif" font-size="42" font-weight="400" fill="#5B7FA8">Solutions</text>
+                        </svg>
+                    </div>
+                    <button class="header-cta" onclick="showFormulario()">Solicitar Ahora</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>
+                            Obtén el <span class="highlight">Financiamiento Empresarial</span> que Necesitas para Crecer
+                        </h1>
+                        <p class="subtitle">Solicita ahora y recibe una decisión en minutos</p>
+                        
+                        <ul class="benefits-list">
+                            <li>
+                                <div class="check-icon"></div>
+                                <span>Aprovechar las relaciones existentes</span>
+                            </li>
+                            <li>
+                                <div class="check-icon"></div>
+                                <span>Acceso a más de 75 prestamistas comerciales</span>
+                            </li>
+                            <li>
+                                <div class="check-icon"></div>
+                                <span>Acceso al portal en tiempo real</span>
+                            </li>
+                        </ul>
+
+                        <button class="hero-cta" onclick="showFormulario()">Solicitar Ahora</button>
+
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <span style="color: #4285F4;">★★★★★</span>
+                                <span>Google Reviews</span>
+                            </div>
+                            <div class="trust-badge">
+                                <span style="color: #3D5A80; font-weight: 700;">A+</span>
+                                <span>BBB Rating</span>
+                            </div>
+                            <div class="trust-badge">
+                                <span style="color: #10B981;">✓</span>
+                                <span>SSL Secured</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-image">
+                        <div class="hero-image-placeholder">
+                            <span>Empresario Exitoso</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>$2B+</h3>
+                        <p>En Financiamiento Otorgado</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>75+</h3>
+                        <p>Prestamistas Asociados</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>50K+</h3>
+                        <p>Negocios Financiados</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>24hrs</h3>
+                        <p>Aprobación Promedio</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">¿Por Qué Elegirnos?</h2>
+                <p class="section-subtitle">Hacemos que obtener financiamiento sea rápido, fácil y accesible para tu negocio</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Aplicación Sencilla</h3>
+                        <p>Nuestra sencilla solicitud en línea de 15 segundos puede conectarte con ofertas en minutos.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">✓</div>
+                        <h3>Sin Puntaje FICO Mínimo</h3>
+                        <p>¿Mal crédito? ¡No hay problema! La mayoría de nuestras mejores opciones de financiamiento no requieren un puntaje FICO mínimo.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Montos Mayores</h3>
+                        <p>Conéctate con las mejores opciones de financiamiento con el monto de oferta más alto.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Financiamiento el Mismo Día</h3>
+                        <p>Nuestra velocidad Fintech puede llevarte dentro y fuera del proceso de aprobación en solo unas horas, ¡y financiamiento el mismo día!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section class="requirements-section">
+            <div class="container">
+                <h2 class="section-title">¿Qué Necesitas para Calificar?</h2>
+                <p class="section-subtitle">Requisitos simples y flexibles para ayudar a más negocios a crecer</p>
+                
+                <div class="requirements-grid">
+                    <div class="requirement-card">
+                        <div class="requirement-icon">📅</div>
+                        <h3>Más de 3 Meses en el Negocio</h3>
+                        <p>Puedes calificar para nuestras mejores opciones de financiamiento con tan solo más de 3 meses en el negocio.</p>
+                    </div>
+
+                    <div class="requirement-card">
+                        <div class="requirement-icon">💵</div>
+                        <h3>Ventas Brutas Mensuales de $5,000 o Más</h3>
+                        <p>El ingreso mínimo para calificar a las opciones de financiamiento es de $5,000 al mes, o $60,000 en ventas brutas anuales.</p>
+                    </div>
+
+                    <div class="requirement-card">
+                        <div class="requirement-icon">🎯</div>
+                        <h3>Sin Puntaje FICO Mínimo</h3>
+                        <p>Tenemos opciones de financiamiento para todos los perfiles crediticios. No se requiere un puntaje FICO mínimo para aplicar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>¿Listo para Hacer Crecer tu Negocio?</h2>
+                <p>Completa tu solicitud en menos de 2 minutos y recibe ofertas de financiamiento</p>
+                <button class="cta-button-large" onclick="showFormulario()">Comenzar Ahora</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Financore Solutions</h3>
+                        <p>Conectamos a empresarios con las mejores opciones de financiamiento del mercado.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contacto</h3>
+                        <a href="tel:18336661957">📞 1-833-666-1957</a>
+                        <a href="https://wa.me/18336661957" target="_blank">💬 WhatsApp</a>
+                        <a href="mailto:info@financoresolutions.com">✉️ info@financoresolutions.com</a>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Enlaces</h3>
+                        <a href="#">Sobre Nosotros</a>
+                        <a href="#">Términos y Condiciones</a>
+                        <a href="#">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Financore Solutions. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- FORMULARIO PAGE -->
+    <div id="formularioPage" class="page-section">
+        <div class="form-container">
+            <div class="form-wrapper">
+                <!-- Logo -->
+                <div class="logo">
+                    <svg class="logo-img" viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" style="max-width: 320px; height: auto;">
+                        <g transform="translate(20, 20)">
+                            <path d="M 10,50 A 40,40 0 0,1 30,15" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 40,10 A 40,40 0 0,1 70,10" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 80,15 A 40,40 0 0,1 90,50" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                            <g transform="translate(65, 8)">
+                                <circle cx="0" cy="0" r="8" fill="white" stroke="#5B7FA8" stroke-width="2"/>
+                                <circle cx="0" cy="-1" r="3" fill="#5B7FA8"/>
+                                <path d="M -3,3 Q 0,1 3,3" fill="none" stroke="#5B7FA8" stroke-width="1.5"/>
+                            </g>
+                            <g transform="translate(80, 55)">
+                                <circle cx="0" cy="0" r="8" fill="white" stroke="#5B7FA8" stroke-width="2"/>
+                                <circle cx="0" cy="-1" r="3" fill="#5B7FA8"/>
+                                <path d="M -3,3 Q 0,1 3,3" fill="none" stroke="#5B7FA8" stroke-width="1.5"/>
+                            </g>
+                            <g transform="translate(35, 42)">
+                                <circle cx="0" cy="0" r="11" fill="#5B7FA8"/>
+                                <text x="0" y="5" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">$</text>
+                            </g>
+                            <path d="M 10,55 A 40,40 0 0,0 25,75" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 75,75 A 40,40 0 0,0 90,55" fill="none" stroke="#5B7FA8" stroke-width="8" stroke-linecap="round"/>
+                        </g>
+                        <text x="130" y="65" font-family="'Montserrat', Arial, sans-serif" font-size="42" font-weight="600" fill="#2C3E50">Financore</text>
+                        <text x="130" y="100" font-family="'Montserrat', Arial, sans-serif" font-size="42" font-weight="400" fill="#5B7FA8">Solutions</text>
+                    </svg>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text">SOLO TOMA 2 MINUTOS</p>
+                </div>
+
+                <!-- Back Button -->
+                <button class="back-button" id="backButton">← Atrás</button>
+
+                <!-- Question 1: Tipo de Negocio -->
+                <div class="question-section active" data-step="1">
+                    <h2 class="question-title">¿Qué tipo de negocio tiene?</h2>
+                    <div class="options-container">
+                        <button class="option-button" data-value="Propiedad Unipersonal">
+                            <span class="option-icon">👤</span>
+                            <span>Propiedad Unipersonal</span>
+                        </button>
+                        <button class="option-button" data-value="Sociedad (Partnership)">
+                            <span class="option-icon">👥</span>
+                            <span>Sociedad (Partnership)</span>
+                        </button>
+                        <button class="option-button" data-value="Compañía de Responsabilidad Limitada (LLC)">
+                            <span class="option-icon">⚙️</span>
+                            <span>Compañía de Responsabilidad Limitada (LLC)</span>
+                        </button>
+                        <button class="option-button" data-value="Corporación C">
+                            <span class="option-icon">🏢</span>
+                            <span>Corporación C</span>
+                        </button>
+                        <button class="option-button" data-value="Corporación S">
+                            <span class="option-icon">🏛️</span>
+                            <span>Corporación S</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question 2: Capital Buscado -->
+                <div class="question-section" data-step="2">
+                    <h2 class="question-title">¿Cuánto capital está buscando?</h2>
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="capitalAmount" placeholder="$" inputmode="numeric">
+                        <p class="validation-message" id="capitalValidation"></p>
+                    </div>
+                    <button class="continue-button" id="continueCapital">Continuar</button>
+                </div>
+
+                <!-- Question 3: Ventas Mensuales -->
+                <div class="question-section" data-step="3">
+                    <h2 class="question-title">¿Cuánto fueron las ventas del mes pasado?</h2>
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="monthlySales" placeholder="$" inputmode="numeric">
+                        <p class="validation-message" id="salesValidation"></p>
+                    </div>
+                    <button class="continue-button" id="continueSales">Continuar</button>
+                </div>
+
+                <!-- Question 4: Inicio del Negocio -->
+                <div class="question-section" data-step="4">
+                    <h2 class="question-title">¿Cuándo empezó su negocio?</h2>
+                    <div class="date-container">
+                        <select class="input-field" id="startMonth">
+                            <option value="">Seleccionar Mes</option>
+                            <option value="01">Enero</option>
+                            <option value="02">Febrero</option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Mayo</option>
+                            <option value="06">Junio</option>
+                            <option value="07">Julio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                        <input type="text" class="input-field" id="startYear" placeholder="YYYY" maxlength="4" inputmode="numeric">
+                    </div>
+                    <p class="date-helper">(Use la fecha de adquisición si no eres el fundador)</p>
+                    <button class="continue-button" id="continueDate">Continuar</button>
+                </div>
+
+                <!-- Question 5: Cuenta Bancaria -->
+                <div class="question-section" data-step="5">
+                    <h2 class="question-title">¿Tiene una cuenta de banco comercial?</h2>
+                    <div class="yesno-container">
+                        <button class="yesno-button" data-value="SI">SI</button>
+                        <button class="yesno-button" data-value="NO">NO</button>
+                    </div>
+                </div>
+
+                <!-- Question 6: Nombre del Negocio -->
+                <div class="question-section" data-step="6">
+                    <h2 class="question-title">¿Cuál es el nombre de su negocio?</h2>
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="businessName" placeholder="Nombre del negocio">
+                        <p class="validation-message" id="businessValidation"></p>
+                    </div>
+                    <button class="continue-button" id="continueBusiness">Continuar</button>
+                </div>
+
+                <!-- Question 7: Teléfono -->
+                <div class="question-section" data-step="7">
+                    <h2 class="question-title">¿Cuál es tu número de teléfono móvil?</h2>
+                    <div class="input-container">
+                        <input type="tel" class="input-field" id="phoneNumber" placeholder="📱">
+                        <p class="validation-message" id="phoneValidation"></p>
+                    </div>
+                    <p class="disclaimer">
+                        Al proporcionarnos tu número de teléfono y hacer clic en continuar, aceptas recibir llamadas y mensajes de texto de Financore Solutions LLC sobre sus servicios. Las llamadas y mensajes pueden ser generados usando un marcador automático y pueden contener mensajes pregrabados. Entiendo que estoy proporcionando este consentimiento para recibir tales llamadas telefónicas incluso si mi número de teléfono está actualmente listado en una Lista de No Llamar federal, estatal, local o de empresa, y que puedo optar por no recibir llamadas en cualquier momento. El consentimiento no es una condición de compra o recepción de servicios. Al usar este formulario, acepto los Términos de Uso y la Política de Privacidad. Pueden aplicarse tarifas de mensajes y datos. La frecuencia de mensajes puede variar. Cancela la suscripción en cualquier momento respondiendo STOP. Envía HELP para obtener ayuda.
+                    </p>
+                    <button class="continue-button" id="continuePhone">Continuar</button>
+                </div>
+
+                <!-- Question 8: Nombre y Apellido -->
+                <div class="question-section" data-step="8">
+                    <h2 class="question-title">¿Cuál es su nombre y apellido?</h2>
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="fullName" placeholder="👤">
+                        <p class="validation-message" id="nameValidation"></p>
+                    </div>
+                    <button class="continue-button" id="continueName">Continuar</button>
+                </div>
+
+                <!-- Question 9: Email -->
+                <div class="question-section" data-step="9">
+                    <h2 class="question-title">¿Cuál es su correo electrónico?</h2>
+                    <div class="input-container">
+                        <input type="email" class="input-field" id="email" placeholder="correo@ejemplo.com">
+                        <p class="validation-message" id="emailValidation"></p>
+                    </div>
+                    <button class="continue-button" id="continueEmail">Enviar Solicitud</button>
+                </div>
+
+                <!-- Final Decision Screen -->
+                <div class="success-screen">
+                    <h1 class="final-title">
+                        ¡FELICITACIONES!<br>
+                        <span class="highlight">ESTÁ A SOLO UN PASO</span><br>
+                        DE RECIBIR FINANCIACIÓN<br>
+                        PARA SU NEGOCIO
+                    </h1>
+                    <p class="final-subtitle">
+                        Ahora, terminemos de completar su solicitud en línea para acelerar el proceso.
+                    </p>
+                    
+                    <p class="final-question">¿Cómo prefieres comenzar?</p>
+                    
+                    <div class="final-options">
+                        <a href="https://go.mypartner.io/business-financing/?ref=001Qk00000LXyxOIAT&lang=es#" target="_blank" class="final-option-button final-option-primary">
+                            <span class="final-option-icon">📄</span>
+                            <span>Llenar la Aplicación Ahora</span>
+                            <span class="final-option-subtitle">Un asesor te contactará en 24 horas</span>
+                        </a>
+                        
+                        <a href="https://wa.me/18336661957" target="_blank" class="final-option-button final-option-secondary">
+                            <span class="final-option-icon">💬</span>
+                            <span>Hablar con un Asesor Primero</span>
+                            <span class="final-option-subtitle">Resuelve tus dudas antes de aplicar</span>
+                        </a>
+                    </div>
+                    
+                    <div class="final-badges">
+                        <div class="final-badge">
+                            <span class="final-badge-icon">✓</span>
+                            <span>100% Confiable</span>
+                        </div>
+                        <div class="final-badge">
+                            <span class="final-badge-icon">⚡</span>
+                            <span>Proceso Rápido</span>
+                        </div>
+                        <div class="final-badge">
+                            <span class="final-badge-icon">👥</span>
+                            <span>Asesores Expertos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation between pages
+        function showFormulario() {
+            document.getElementById('landingPage').classList.remove('active');
+            document.getElementById('formularioPage').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showLanding() {
+            document.getElementById('formularioPage').classList.remove('active');
+            document.getElementById('landingPage').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Formulario Logic
+        const formData = {};
+        let currentStep = 1;
+        const totalSteps = 9;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            const backButton = document.getElementById('backButton');
+            if (currentStep > 1) {
+                backButton.classList.add('show');
+            } else {
+                backButton.classList.remove('show');
+            }
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+            currentStep = step;
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function formatCurrency(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value) {
+                value = parseInt(value).toLocaleString('en-US');
+                input.value = '$ ' + value;
+            }
+        }
+
+        function formatPhone(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    input.value = '(' + value;
+                } else if (value.length <= 6) {
+                    input.value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+                } else {
+                    input.value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
+                }
+            }
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Step 1: Business Type
+        document.querySelectorAll('[data-step="1"] .option-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('[data-step="1"] .option-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                formData.businessType = this.dataset.value;
+                setTimeout(() => goToStep(2), 300);
+            });
+        });
+
+        // Step 2: Capital Amount
+        const capitalInput = document.getElementById('capitalAmount');
+        const continueCapital = document.getElementById('continueCapital');
+        const capitalValidation = document.getElementById('capitalValidation');
+
+        capitalInput.addEventListener('input', function() {
+            formatCurrency(this);
+            const value = parseInt(this.value.replace(/\D/g, ''));
+            if (value >= 5000) {
+                this.classList.add('valid');
+                this.classList.remove('error');
+                capitalValidation.textContent = 'Se ve bien.';
+                capitalValidation.classList.remove('error');
+                continueCapital.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continueCapital.classList.remove('show');
+            }
+        });
+
+        continueCapital.addEventListener('click', function() {
+            formData.capitalAmount = capitalInput.value;
+            goToStep(3);
+        });
+
+        // Step 3: Monthly Sales
+        const salesInput = document.getElementById('monthlySales');
+        const continueSales = document.getElementById('continueSales');
+        const salesValidation = document.getElementById('salesValidation');
+
+        salesInput.addEventListener('input', function() {
+            formatCurrency(this);
+            const value = parseInt(this.value.replace(/\D/g, ''));
+            if (value >= 5000) {
+                this.classList.add('valid');
+                this.classList.remove('error');
+                salesValidation.textContent = 'Se ve bien.';
+                salesValidation.classList.remove('error');
+                continueSales.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continueSales.classList.remove('show');
+            }
+        });
+
+        continueSales.addEventListener('click', function() {
+            formData.monthlySales = salesInput.value;
+            goToStep(4);
+        });
+
+        // Step 4: Business Start Date
+        const startMonth = document.getElementById('startMonth');
+        const startYear = document.getElementById('startYear');
+        const continueDate = document.getElementById('continueDate');
+
+        function checkDateValidity() {
+            if (startMonth.value && startYear.value && startYear.value.length === 4) {
+                continueDate.classList.add('show');
+            } else {
+                continueDate.classList.remove('show');
+            }
+        }
+
+        startMonth.addEventListener('change', checkDateValidity);
+        startYear.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+            checkDateValidity();
+        });
+
+        continueDate.addEventListener('click', function() {
+            formData.startDate = startMonth.value + '/' + startYear.value;
+            goToStep(5);
+        });
+
+        // Step 5: Bank Account
+        document.querySelectorAll('[data-step="5"] .yesno-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('[data-step="5"] .yesno-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                formData.hasBankAccount = this.dataset.value;
+                setTimeout(() => goToStep(6), 300);
+            });
+        });
+
+        // Step 6: Business Name
+        const businessName = document.getElementById('businessName');
+        const continueBusiness = document.getElementById('continueBusiness');
+        const businessValidation = document.getElementById('businessValidation');
+
+        businessName.addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.classList.add('valid');
+                businessValidation.textContent = '';
+                continueBusiness.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continueBusiness.classList.remove('show');
+            }
+        });
+
+        continueBusiness.addEventListener('click', function() {
+            formData.businessName = businessName.value;
+            goToStep(7);
+        });
+
+        // Step 7: Phone Number
+        const phoneNumber = document.getElementById('phoneNumber');
+        const continuePhone = document.getElementById('continuePhone');
+        const phoneValidation = document.getElementById('phoneValidation');
+
+        phoneNumber.addEventListener('input', function() {
+            formatPhone(this);
+            const value = this.value.replace(/\D/g, '');
+            if (value.length === 10) {
+                this.classList.add('valid');
+                phoneValidation.textContent = '';
+                continuePhone.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continuePhone.classList.remove('show');
+            }
+        });
+
+        continuePhone.addEventListener('click', function() {
+            formData.phoneNumber = phoneNumber.value;
+            goToStep(8);
+        });
+
+        // Step 8: Full Name
+        const fullName = document.getElementById('fullName');
+        const continueName = document.getElementById('continueName');
+        const nameValidation = document.getElementById('nameValidation');
+
+        fullName.addEventListener('input', function() {
+            if (this.value.trim().split(' ').length >= 2) {
+                this.classList.add('valid');
+                nameValidation.textContent = '';
+                continueName.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continueName.classList.remove('show');
+            }
+        });
+
+        continueName.addEventListener('click', function() {
+            formData.fullName = fullName.value;
+            goToStep(9);
+        });
+
+        // Step 9: Email
+        const email = document.getElementById('email');
+        const continueEmail = document.getElementById('continueEmail');
+        const emailValidation = document.getElementById('emailValidation');
+
+        email.addEventListener('input', function() {
+            if (validateEmail(this.value)) {
+                this.classList.add('valid');
+                this.classList.remove('error');
+                emailValidation.textContent = '';
+                continueEmail.classList.add('show');
+            } else {
+                this.classList.remove('valid');
+                continueEmail.classList.remove('show');
+            }
+        });
+
+        continueEmail.addEventListener('click', function() {
+            formData.email = email.value;
+            
+            console.log('Form Data:', formData);
+            
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelector('.success-screen').classList.add('active');
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('backButton').classList.remove('show');
+        });
+
+        // Back button
+        document.getElementById('backButton').addEventListener('click', function() {
+            if (currentStep > 1) {
+                goToStep(currentStep - 1);
+            }
+        });
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
