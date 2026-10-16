@@ -1,0 +1,185 @@
+# Revisión de seguridad automática en cada pull request (copiado de financore-app el 16-oct-2026).
+# Claude lee los cambios del PR y comenta en las líneas donde ve una
+# vulnerabilidad. No revisa el repositorio entero: solo lo que cambia.
+#
+# Necesita el secreto CLAUDE_API_KEY en GitHub → Settings → Secrets and
+# variables → Actions.
+#
+# Se dispara con pull requests, no con push directo a main: para que revise
+# un cambio, el cambio tiene que llegar por PR.
+#
+# POR QUÉ NO USA LA ACTION TAL CUAL (28-sep-2026, PR #10).
+# anthropics/claude-code-security-review instala Node 18, y Claude Code dejó
+# de funcionar en Node 18 en la versión 2.1.198. npm se quedaba en la 2.1.197,
+# que no conoce claude-opus-5-5: la revisión moría en un segundo, la Action lo
+# anotaba como simple aviso y el check salía VERDE sin haber revisado nada.
+# Así pasaron sin revisión los PR #1 a #9.
+#
+# Aquí se corre el MISMO código de la Action (fijado al mismo commit) pero con
+# Node 22 y Claude Code fijado a una versión exacta. Y el check se pone ROJO
+# si la revisión no corrió: un verde tiene que significar "revisado".
+
+name: Revisión de seguridad
+
+permissions:
+  pull-requests: write   # para dejar los comentarios en el PR
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  seguridad:
+    # Solo PRs del propio repositorio. La revisión no está blindada contra
+    # inyección de instrucciones en el código de un PR ajeno.
+    # Y solo cuando Daniel la activa: secreto CLAUDE_API_KEY + variable de repo
+    # REVISION_SEGURIDAD_ACTIVA=true (Settings → Secrets and variables → Actions).
+    # Sin eso el check sale OMITIDO (gris): ni un rojo falso por falta de llave
+    # ni un verde que diga «revisado» sin haberlo hecho.
+    if: github.event.pull_request.head.repo.full_name == github.repository && vars.REVISION_SEGURIDAD_ACTIVA == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Fijados a propósito: una pieza que cambia sola corre con acceso al
+      # código y a la llave. Para subir de versión se cambia aquí, a mano.
+      REVISOR_COMMIT: 0c6a49f1fa56a1d472575da86a94dbc1edb78eda
+      CLAUDE_CODE_VERSION: 2.1.284
+      MODELO: claude-opus-5-5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      # El código de la Action, en el mismo commit que se usaba antes.
+      - uses: actions/checkout@v4
+        with:
+          repository: anthropics/claude-code-security-review
+          ref: 0c6a49f1fa56a1d472575da86a94dbc1edb78eda
+          path: .revisor
+          persist-credentials: false
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.x'
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+
+      - name: Instalar el revisor
+        run: |
+          pip install -r .revisor/claudecode/requirements.txt
+          # El filtro de falsos positivos se "valida" con claude-3-5-haiku, que
+          # ya no existe (404) y lo apagaba en silencio. Solo cambia ese nombre.
+          sed -i 's/claude-3-5-haiku-20241022/claude-haiku-4-5-20251001/' .revisor/claudecode/claude_api_client.py
+          grep -q 'claude-haiku-4-5-20251001' .revisor/claudecode/claude_api_client.py
+          npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          echo "Claude Code: $(claude --version)"
+          # Un "claude" intermedio que guarda la respuesta cruda. Si el script
+          # no la entiende, devuelve una lista vacía como si no hubiera nada
+          # (PR #10, run #11: 17 s y "0 hallazgos" sin haber revisado); con
+          # esto se ve QUÉ contestó Claude y cuánto trabajó.
+          REAL="$(command -v claude)"
+          mkdir -p "$RUNNER_TEMP/intermedio"
+          printf '#!/usr/bin/env bash\n"%s" "$@" | tee -a "%s/claude-salida.txt"\nexit ${PIPESTATUS[0]}\n' \
+            "$REAL" "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/intermedio/claude"
+          chmod +x "$RUNNER_TEMP/intermedio/claude"
+          echo "$RUNNER_TEMP/intermedio" >> "$GITHUB_PATH"
+
+      - name: Revisar el PR
+        id: revision
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          ENABLE_CLAUDE_FILTERING: 'true'
+          EXCLUDE_DIRECTORIES: .revisor
+          CLAUDE_MODEL: ${{ env.MODELO }}
+          CLAUDE_TIMEOUT: '20'
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Falta el secreto CLAUDE_API_KEY: la revisión no puede correr."
+            exit 1
+          fi
+          export REPO_PATH="$GITHUB_WORKSPACE"
+          # Ruta ABSOLUTA: el script la busca desde su propia carpeta, y con la
+          # ruta relativa de antes nuestras instrucciones no se cargaban nunca.
+          export CUSTOM_SECURITY_SCAN_INSTRUCTIONS="$GITHUB_WORKSPACE/.github/seguridad-instrucciones.txt"
+          if [ ! -s "$CUSTOM_SECURITY_SCAN_INSTRUCTIONS" ]; then
+            echo "::error::No encuentro .github/seguridad-instrucciones.txt"
+            exit 1
+          fi
+          cd .revisor
+          export PYTHONPATH="$(pwd)"
+          set +e
+          python -u claudecode/github_action_audit.py > "$GITHUB_WORKSPACE/claudecode-results.json" 2> "$GITHUB_WORKSPACE/claudecode-error.log"
+          echo "codigo=$?" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Comprobar que de verdad revisó
+        id: veredicto
+        run: |
+          R=claudecode-results.json
+          if [ ! -s "$R" ] || ! jq -e . "$R" > /dev/null 2>&1; then
+            echo "::error::La revisión no produjo resultados: NO se revisó este PR."
+            cat claudecode-error.log || true
+            exit 1
+          fi
+          if jq -e '.error' "$R" > /dev/null; then
+            echo "::error::La revisión falló y NO revisó este PR: $(jq -r '.error' "$R")"
+            cat claudecode-error.log || true
+            exit 1
+          fi
+          if ! jq -e '.findings | type == "array"' "$R" > /dev/null; then
+            echo "::error::Resultado sin lista de hallazgos: NO se puede dar por revisado."
+            exit 1
+          fi
+          # Lo que dijo Claude, en una línea: turnos, duración, coste, si fue error.
+          if [ -s claude-salida.txt ]; then
+            echo "Respuesta de Claude:"
+            jq -c 'select(type == "object" and .type == "result") | {subtype, is_error, num_turns, duration_ms, total_cost_usd}' claude-salida.txt 2>/dev/null \
+              || head -c 600 claude-salida.txt
+          fi
+          # Un JSON válido con lista vacía NO basta: el script devuelve eso mismo
+          # cuando no entiende la respuesta. Tiene que decir que terminó y
+          # cuántos archivos miró.
+          echo "Resumen: $(jq -c '.analysis_summary' "$R")"
+          if ! jq -e '.analysis_summary.review_completed == true and ((.analysis_summary.files_reviewed // 0) | tonumber) > 0' "$R" > /dev/null; then
+            echo "::error::Claude no completó la revisión (review_completed / files_reviewed). NO se revisó este PR. Mira claude-salida.txt en los artefactos."
+            exit 1
+          fi
+          jq '.findings' "$R" > findings.json
+          echo "Archivos revisados: $(jq '.analysis_summary.files_reviewed' "$R")"
+          echo "Hallazgos: $(jq 'length' findings.json) · altos: $(jq '[.[] | select((.severity // "") | ascii_upcase == "HIGH")] | length' findings.json)"
+
+      - name: Comentar en el PR
+        if: steps.veredicto.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SILENCE_CLAUDECODE_COMMENTS: 'false'
+        run: node .revisor/scripts/comment-pr-findings.js
+
+      - name: Guardar resultados
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: security-review-results
+          path: |
+            findings.json
+            claudecode-results.json
+            claudecode-error.log
+            claude-salida.txt
+          retention-days: 7
+          if-no-files-found: ignore
+
+      # Un hallazgo ALTO pone el check en rojo: se mira antes de unir.
+      - name: Hallazgos altos
+        if: steps.veredicto.outcome == 'success'
+        run: |
+          ALTOS=$(jq '[.[] | select((.severity // "") | ascii_upcase == "HIGH")] | length' findings.json)
+          if [ "$ALTOS" -gt 0 ]; then
+            echo "::error::La revisión encontró $ALTOS hallazgo(s) ALTO(s). Míralos en los comentarios del PR antes de unir."
+            exit 1
+          fi
