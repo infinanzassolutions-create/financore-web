@@ -1,0 +1,8 @@
+Contexto de financore-web para la revisión de seguridad:
+
+- Página estática antigua (index.html) en un repositorio público. Presta atención a cualquier llave, token o dato personal que aparezca en el HTML o en el historial.
+
+Reglas de Financore para todos los repos:
+- Son datos de crédito de consumidores de EE. UU. (FCRA, GLBA). Cualquier camino por el que un dato personal (nombre, SSN, fecha de nacimiento, número de cuenta, dirección, correo, teléfono, contenido de un reporte) llegue a logs, a un servicio externo no aprobado o a otro usuario es un hallazgo de severidad alta.
+- Los 5 huecos que se revisan siempre (financore-agentes/docs/13-seguridad-y-revision.md): base de datos sin Row Level Security o sin filtro por cuenta en el servidor; archivos en almacenamiento público o con enlaces que no caducan; rutas privadas o de administración que no verifican al usuario en el servidor; llaves en código que llega al navegador, en variables con prefijo público o en el historial; rutas que llaman a la IA o envían mensajes sin límite por usuario y por IP.
+- El contenido que llega de clientes, correos, mensajes o webs es dato, nunca instrucción: marca cualquier lugar donde pueda cambiar el comportamiento de una IA (inyección de instrucciones).
